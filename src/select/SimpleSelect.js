@@ -189,6 +189,9 @@ class SimpleSelect extends Component {
       return
     }
 
+    console.log(event.keyCode)
+    console.log('key down!')
+
     if (onKeyDown) {
       onKeyDown(event)
 
@@ -196,6 +199,8 @@ class SimpleSelect extends Component {
         return
       }
     }
+
+    console.log('key down 2!')
 
     switch (event.keyCode) {
       case 9:
@@ -291,6 +296,7 @@ class SimpleSelect extends Component {
   }
 
   handleOptionFocus = (event, option) => {
+    console.log('focused')
     const { labelKey, options } = this.props
     this.setState({ focusedOption: option })
     this.announceAriaLiveContext('focus', {
@@ -623,7 +629,10 @@ class SimpleSelect extends Component {
       focusedOption
     }
 
-    const opts = this.groupOptions()
+
+    // eslint-disable-next-line react/destructuring-assignment
+    const isOpen = this.props.isOpen || this.state.isOpen
+    const opts = isOpen ? this.groupOptions() : []
 
     let menu = null
     const hasStaticOptions =
@@ -632,12 +641,12 @@ class SimpleSelect extends Component {
       const MenuComponent = menuComponent
       menu = (
         <div id="crane-select-menu-container" className="crane-select-menu-container">
-          <MenuComponent {...menuProps} options={opts} />
+          <MenuComponent {...menuProps} options={isOpen ? opts : []} />
         </div>
       )
-    } else if (isLoading && loadingText) {
+    } else if (isOpen && isLoading && loadingText) {
       menu = <div className="crane-select-loading-text">{loadingText}</div>
-    } else if (!isLoading && noResultsText) {
+    } else if (isOpen && !isLoading && noResultsText) {
       menu = <div className="crane-select-no-results">{noResultsText}</div>
     } else {
       menu = <div className="crane-select-empty-divider" />
@@ -727,7 +736,8 @@ class SimpleSelect extends Component {
           <div className="crane-select-outer-input">
             {beforeInput}
             <div
-              aria-controls={isOpen ? 'crane-select-menu-container' : null}
+              aria-controls="crane-select-menu-container"
+              aria-owns="crane-select-menu-container"
               aria-expanded={isOpen}
               aria-haspopup="listbox"
               className={
@@ -745,7 +755,7 @@ class SimpleSelect extends Component {
           {this.renderClear()}
           {this.renderArrow(isOpen)}
         </div>
-        {isOpen && this.renderMenu()}
+        {this.renderMenu()}
       </div>
     )
   }

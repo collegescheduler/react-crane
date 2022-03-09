@@ -73,7 +73,6 @@ class Option extends PureComponent {
         onMouseMove={this.handleFocus}
         onFocus={this.handleFocus}
         role="option"
-        tabIndex="0"
       >
         {renderer}
       </div>

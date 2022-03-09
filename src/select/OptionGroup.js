@@ -77,7 +77,6 @@ class OptionGroup extends PureComponent {
         onMouseEnter={this.handleFocus}
         onMouseMove={this.handleFocus}
         role="option"
-        tabIndex="0"
       >
         <span className="crane-select-group-header">{renderer}</span>
         {children}
