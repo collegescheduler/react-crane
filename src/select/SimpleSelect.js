@@ -189,9 +189,6 @@ class SimpleSelect extends Component {
       return
     }
 
-    console.log(event.keyCode)
-    console.log('key down!')
-
     if (onKeyDown) {
       onKeyDown(event)
 
@@ -199,8 +196,6 @@ class SimpleSelect extends Component {
         return
       }
     }
-
-    console.log('key down 2!')
 
     switch (event.keyCode) {
       case 9:
